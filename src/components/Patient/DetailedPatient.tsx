@@ -59,7 +59,20 @@ const DetailedPatient = ({
         >
           Job: {patient.occupation}
         </Typography>
-        ;
+
+        <Typography variant="h4" component="h2" style={{ marginTop: '0.5em' }}>
+          Entries
+        </Typography>
+
+        {patient.entries.map((entry) => (
+          <li key={entry.id}>
+            {entry.date} {entry.description}
+            <ul>
+              {entry.diagnosisCodes &&
+                entry.diagnosisCodes.map((code) => <li key={code}>{code}</li>)}
+            </ul>
+          </li>
+        ))}
       </div>
     );
   } else
