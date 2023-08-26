@@ -10,6 +10,7 @@ import diagnoseService from './services/diagnoses';
 const App = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [diagnoses, setDiagnoses] = useState<Diagnose[]>([]);
+
   const match = useMatch('/patients/:id');
 
   useEffect(() => {
@@ -43,7 +44,9 @@ const App = () => {
         <Routes>
           <Route
             path="patients/:id"
-            element={<DetailedPatient patient={patient} />}
+            element={
+              <DetailedPatient patient={patient} diagnoses={diagnoses} />
+            }
           />
           <Route
             path="/"

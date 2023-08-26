@@ -5,6 +5,7 @@ import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
 import TransgenderIcon from '@mui/icons-material/Transgender';
 import SvgIcon from '@mui/material/SvgIcon';
+import { Diagnose } from '../../types';
 
 const GenderIcon = ({ gender }: { gender: Gender }) => {
   if (gender === 'male') {
@@ -35,9 +36,18 @@ const GenderIcon = ({ gender }: { gender: Gender }) => {
 
 const DetailedPatient = ({
   patient,
+  diagnoses,
 }: {
   patient: Patient | null | undefined;
+  diagnoses: Diagnose[];
 }) => {
+  const findDiagnose = (code: string): string => {
+    const found = diagnoses.find((d) => {
+      return d.code === code;
+    });
+    return found ? found.name : 'Diagnosis Not Found';
+  };
+
   if (patient) {
     return (
       <div>
@@ -69,7 +79,11 @@ const DetailedPatient = ({
             {entry.date} {entry.description}
             <ul>
               {entry.diagnosisCodes &&
-                entry.diagnosisCodes.map((code) => <li key={code}>{code}</li>)}
+                entry.diagnosisCodes.map((code) => (
+                  <li key={code}>
+                    {code} {findDiagnose(code)}{' '}
+                  </li>
+                ))}
             </ul>
           </li>
         ))}
