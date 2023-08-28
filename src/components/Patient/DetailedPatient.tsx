@@ -1,4 +1,4 @@
-import { Patient } from '../../types';
+import { Entry, Patient } from '../../types';
 import { Gender } from '../../types';
 import { Typography } from '@mui/material';
 import MaleIcon from '@mui/icons-material/Male';
@@ -6,6 +6,7 @@ import FemaleIcon from '@mui/icons-material/Female';
 import TransgenderIcon from '@mui/icons-material/Transgender';
 import SvgIcon from '@mui/material/SvgIcon';
 import { Diagnose } from '../../types';
+import HospitalEntry from './Entries/HospitalEntry';
 
 const GenderIcon = ({ gender }: { gender: Gender }) => {
   if (gender === 'male') {
@@ -34,6 +35,16 @@ const GenderIcon = ({ gender }: { gender: Gender }) => {
     );
 };
 
+const EntryDetails = ({ entry }: { entry: Entry }) => {
+  switch (entry.type) {
+    case 'Hospital':
+      return <HospitalEntry />;
+
+    default:
+      break;
+  }
+};
+
 const DetailedPatient = ({
   patient,
   diagnoses,
@@ -42,9 +53,7 @@ const DetailedPatient = ({
   diagnoses: Diagnose[];
 }) => {
   const findDiagnose = (code: string): string => {
-    const found = diagnoses.find((d) => {
-      return d.code === code;
-    });
+    const found = diagnoses.find((d) => d.code === code);
     return found ? found.name : 'Diagnosis Not Found';
   };
 
