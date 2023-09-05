@@ -1,0 +1,11 @@
+          <li key={entry.id}>
+            {entry.date} {entry.description}
+            <ul>
+              {entry.diagnosisCodes &&
+                entry.diagnosisCodes.map((code) => (
+                  <li key={code}>
+                    {code} {findDiagnose(code)}{' '}
+                  </li>
+                ))}
+            </ul>
+          </li>

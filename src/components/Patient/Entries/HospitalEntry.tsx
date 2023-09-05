@@ -1,5 +1,7 @@
-const HospitalEntry = () => {
+import { HospitalEntry } from '../../../types';
+
+const Hospital = ({ entry }: { entry: HospitalEntry }) => {
   return <></>;
 };
 
-export default HospitalEntry;
+export default Hospital;

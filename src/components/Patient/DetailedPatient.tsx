@@ -6,7 +6,15 @@ import FemaleIcon from '@mui/icons-material/Female';
 import TransgenderIcon from '@mui/icons-material/Transgender';
 import SvgIcon from '@mui/material/SvgIcon';
 import { Diagnose } from '../../types';
-import HospitalEntry from './Entries/HospitalEntry';
+import Hospital from './Entries/HospitalEntry';
+import OccupationalHealthcareEntry from './Entries/OccupationalHealthcareEntry';
+import HealthEntry from './Entries/HealthEntry';
+
+const assertNever = (value: never): never => {
+  throw new Error(
+    `Unhandled discriminated union member: ${JSON.stringify(value)}`
+  );
+};
 
 const GenderIcon = ({ gender }: { gender: Gender }) => {
   if (gender === 'male') {
@@ -38,10 +46,13 @@ const GenderIcon = ({ gender }: { gender: Gender }) => {
 const EntryDetails = ({ entry }: { entry: Entry }) => {
   switch (entry.type) {
     case 'Hospital':
-      return <HospitalEntry />;
-
+      return <Hospital entry={entry} />;
+    case 'OccupationalHealthcare':
+      return <OccupationalHealthcareEntry />;
+    case 'HealthCheck':
+      return <HealthEntry />;
     default:
-      break;
+      return assertNever(entry);
   }
 };
 
@@ -84,17 +95,21 @@ const DetailedPatient = ({
         </Typography>
 
         {patient.entries.map((entry) => (
-          <li key={entry.id}>
-            {entry.date} {entry.description}
-            <ul>
-              {entry.diagnosisCodes &&
-                entry.diagnosisCodes.map((code) => (
-                  <li key={code}>
-                    {code} {findDiagnose(code)}{' '}
-                  </li>
-                ))}
-            </ul>
-          </li>
+          <div>
+            {/*  <li key={entry.id}>
+              {entry.date} {entry.description}
+              <ul>
+                {entry.diagnosisCodes &&
+                  entry.diagnosisCodes.map((code) => (
+                    <li key={code}>
+                      {code} {findDiagnose(code)}{' '}
+                    </li>
+                  ))}
+              </ul>
+            </li>*/}
+
+            <EntryDetails entry={entry} />
+          </div>
         ))}
       </div>
     );
